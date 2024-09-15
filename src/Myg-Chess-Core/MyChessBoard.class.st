@@ -118,17 +118,21 @@ MyChessBoard >> initialize [
 { #category : 'initialization' }
 MyChessBoard >> initializeFromFENBoard: aFENBoard [
 
-	aFENBoard keysAndValuesDo: [ :k :v |
-		v ~= 'empty' ifTrue: [
-			| substrings color piece |
-			substrings := v substrings.
-			color := substrings first.
-			piece := substrings second.
-			self
-				at: k
-				put:
-					((self class environment at: ('My' , piece capitalized) asSymbol)
-						 perform: color asLowercase asSymbol) ] ]
+ aFENBoard keysAndValuesDo: [ :k :v |
+     v ~= 'empty' ifTrue: [
+         | substrings color pieceClass pieceInstance |
+         substrings := v substrings.
+         color := substrings first.
+         pieceClass := (self class environment at: ('My' , (substrings second capitalized)) asSymbol).
+         pieceInstance := pieceClass perform: color asLowercase asSymbol.
+         
+         "Initialiser la variable de classe si nécessaire"
+         pieceInstance asMoved: false .
+
+         self at: k put: pieceInstance
+     ]
+ ]
+
 ]
 
 { #category : 'initialization' }

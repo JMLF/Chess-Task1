@@ -3,7 +3,8 @@ Class {
 	#superclass : 'Object',
 	#instVars : [
 		'color',
-		'square'
+		'square',
+		'asMoved'
 	],
 	#category : 'Myg-Chess-Core',
 	#package : 'Myg-Chess-Core'
@@ -23,6 +24,19 @@ MyPiece class >> white [
 	^ self new
 		  color: Color white;
 		  yourself
+]
+
+{ #category : 'accessing' }
+MyPiece >> asMoved [
+	"Default is false when the piece hasn't moved at the launch"
+	"@TODO this doesn't work when you load a game from FEN saves"
+	^ asMoved
+]
+
+{ #category : 'accessing' }
+MyPiece >> asMoved: aBoolean [
+	"Setter method for instance var asMoved" 
+	 asMoved := aBoolean
 ]
 
 { #category : 'as yet unclassified' }
