@@ -6,6 +6,60 @@ Class {
 }
 
 { #category : 'tests' }
+MyPawnTests >> testBlackCannotGoToTheSide [
+
+   | pawn squares board row|
+   board := MyChessBoard empty.
+   board at: 'e2' put: (pawn := MyPawn black asMoved: false).
+
+    squares := pawn targetSquares.
+   row := pawn square. 
+   
+    self assert: (squares anySatisfy: [:each | #('d2' 'f2') includes: each name ]) not
+]
+
+{ #category : 'tests' }
+MyPawnTests >> testBlackCannotGoToTheSideAfterFirstMove [
+
+   | pawn squares board row|
+   board := MyChessBoard empty.
+   board at: 'e2' put: (pawn := MyPawn black asMoved: true).
+
+    squares := pawn targetSquares.
+   row := pawn square. 
+   
+    self assert: (squares anySatisfy: [:each | #('d2' 'f2') includes: each name ]) not
+]
+
+{ #category : 'tests' }
+MyPawnTests >> testBlackCannotGoUpOutside [
+
+   | pawn squares board row|
+   board := MyChessBoard empty.
+   board at: 'e1' put: (pawn := MyPawn black asMoved: true).
+
+    squares := pawn targetSquares.
+   row := pawn square. 
+   
+    self assert: squares isEmpty 
+]
+
+{ #category : 'tests' }
+MyPawnTests >> testBlackFirstMoveOneSquare [
+	"Pawn should be able to move for 1 square for their first move"
+	| pawn squares board |
+	board := MyChessBoard empty.
+	board at: 'e7' put: (pawn := MyPawn black asMoved: false).
+
+	squares := pawn targetSquares.
+	self
+		assertCollection: squares
+		includesAll:
+			(#( e6 ) collect: [ :name |
+				 board at: name ])
+]
+
+{ #category : 'tests' }
 MyPawnTests >> testBlackFirstMoveTwoSquare [
 	"Pawn should be able to move 1 or 2 square for their first move"
 	| pawn squares board |
@@ -16,7 +70,7 @@ MyPawnTests >> testBlackFirstMoveTwoSquare [
 	self
 		assertCollection: squares
 		includesAll:
-			(#( e6 e5 ) collect: [ :name |
+			(#( e5 ) collect: [ :name |
 				 board at: name ])
 ]
 
@@ -99,8 +153,47 @@ MyPawnTests >> testId [
 ]
 
 { #category : 'tests' }
-MyPawnTests >> testWhiteFirstMoveTwoSquare [
-	"Pawn should be able to move 1 or 2 square for their first move"
+MyPawnTests >> testWhiteCannotGoToTheSide [
+
+   | pawn squares board row|
+   board := MyChessBoard empty.
+   board at: 'e2' put: (pawn := MyPawn white asMoved: false).
+
+    squares := pawn targetSquares.
+   row := pawn square. 
+   
+    self assert: (squares anySatisfy: [:each | #('d2' 'f2') includes: each name ]) not
+]
+
+{ #category : 'tests' }
+MyPawnTests >> testWhiteCannotGoToTheSideAfterFirstMove [
+
+   | pawn squares board row|
+   board := MyChessBoard empty.
+   board at: 'e2' put: (pawn := MyPawn white asMoved: true).
+
+    squares := pawn targetSquares.
+   row := pawn square. 
+   
+    self assert: (squares anySatisfy: [:each | #('d2' 'f2') includes: each name ]) not
+]
+
+{ #category : 'tests' }
+MyPawnTests >> testWhiteCannotGoUpOutside [
+
+   | pawn squares board row|
+   board := MyChessBoard empty.
+   board at: 'e8' put: (pawn := MyPawn white asMoved: true).
+
+    squares := pawn targetSquares.
+   row := pawn square. 
+   
+    self assert: squares isEmpty 
+]
+
+{ #category : 'tests' }
+MyPawnTests >> testWhiteFirstMoveOneSquare [
+	"Pawn should be able to move for 1 square for their first move"
 	| pawn squares board |
 	board := MyChessBoard empty.
 	board at: 'e2' put: (pawn := MyPawn white asMoved: false).
@@ -109,7 +202,22 @@ MyPawnTests >> testWhiteFirstMoveTwoSquare [
 	self
 		assertCollection: squares
 		includesAll:
-			(#( e3 e4 ) collect: [ :name |
+			(#( e3 ) collect: [ :name |
+				 board at: name ])
+]
+
+{ #category : 'tests' }
+MyPawnTests >> testWhiteFirstMoveTwoSquare [
+	"Pawn should be able to move for 2 square for their first move"
+	| pawn squares board |
+	board := MyChessBoard empty.
+	board at: 'e2' put: (pawn := MyPawn white asMoved: false).
+
+	squares := pawn targetSquares.
+	self
+		assertCollection: squares
+		includesAll:
+			(#( e4 ) collect: [ :name |
 				 board at: name ])
 ]
 
