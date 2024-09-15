@@ -19,10 +19,19 @@ MyPawn >> renderPieceOn: aSquare [
 
 { #category : 'rendering' }
 MyPawn >> targetSquaresLegal: aBoolean [
+	"On se fait des variables"
+	"Un pour la colone de 2 du first move et une pour le return"
+	| squaresUp possibleMoves |
 
-	^ (self isWhite
+	"squaresUp := self collectSquares: [ :aSquare | aSquare up ]  legal: false."
+	"sinon on utilise while mais comment ?" 
+	"On ajoute 2 de plus sur le square"
+	 
+	possibleMoves := (self isWhite
 		   ifTrue: [ { square up } ]
 		   ifFalse: [ { square down } ]) select: [ :s |
 		  s notNil and: [
-			  s hasPiece not or: [ s contents color ~= color ] ] ]
+			  s hasPiece not or: [ s contents color ~= color ] ] ].
+	
+	^possibleMoves 
 ]
