@@ -44,7 +44,18 @@ MyPawn >> targetSquaresLegal: aBoolean [
         ]
     ].
 	
-	"@TODO il faut gerer le asMoved une fois que la piece s'est deplacé"
+	(self isWhite ifTrue: [square up left] ifFalse: [square down left]) ifNotNil: [:leftSquare |
+        leftSquare hasPiece ifTrue: [ 
+			(leftSquare contents color ~= self color) ifTrue: [possibleMoves add: leftSquare] .
+	 ]
+].
+
+	(self isWhite ifTrue: [square up right] ifFalse: [square down right]) ifNotNil: [:rightSquare |
+        rightSquare hasPiece ifTrue: [ 
+			(rightSquare contents color ~= self color) ifTrue: [possibleMoves add: rightSquare] .
+	 ]
+].
+	"@TODO erreur si on a deux piece en haut du plateau on a un send to nill sur left"
 	"@TODO il faut gerer le déplacement diagonale et le coup special"
 	 
 	"possibleMoves addAll: ( (self isWhite
