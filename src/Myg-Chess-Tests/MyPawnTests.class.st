@@ -40,13 +40,13 @@ MyPawnTests >> testBlackMovesDownLeftWithOponentObstacle [
 
 	| pawn squares board |
 	board := MyChessBoard empty.
-	board at: 'c4' put: (pawn := MyPawn white asMoved: true).
+	board at: 'c4' put: (pawn := MyPawn black asMoved: true).
 
 	"Sould be able tu eat the opponent on down right"
-	board at: 'b3' put: (MyPawn black asMoved: true).
+	board at: 'b3' put: (MyPawn white asMoved: true).
 
 	squares := pawn targetSquares.
-	self assert: (squares anySatisfy: [ :each | each name = 'd3' ]) 
+	self assert: (squares anySatisfy: [ :each | each name = 'b3' ]) 
 ]
 
 { #category : 'tests' }
@@ -54,10 +54,10 @@ MyPawnTests >> testBlackMovesDownRightWithOponentObstacle [
 
 	| pawn squares board |
 	board := MyChessBoard empty.
-	board at: 'c4' put: (pawn := MyPawn white asMoved: true).
+	board at: 'c4' put: (pawn := MyPawn black asMoved: true).
 
 	"Sould be able tu eat the opponent on down right"
-	board at: 'd3' put: (MyPawn black asMoved: true).
+	board at: 'd3' put: (MyPawn white asMoved: true).
 
 	squares := pawn targetSquares.
 	self assert: (squares anySatisfy: [ :each | each name = 'd3' ]) 
