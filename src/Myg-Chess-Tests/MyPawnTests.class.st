@@ -8,12 +8,11 @@ Class {
 { #category : 'tests' }
 MyPawnTests >> testBlackFirstMoveTwoSquare [
 	"Pawn should be able to move 1 or 2 square for their first move"
-	| pawn squares board row|
+	| pawn squares board |
 	board := MyChessBoard empty.
-	board at: 'e7' put: (pawn := MyPawn black).
+	board at: 'e7' put: (pawn := MyPawn black asMoved: false).
 
 	squares := pawn targetSquares.
-	row := pawn square. 
 	self
 		assertCollection: squares
 		includesAll:
@@ -26,7 +25,7 @@ MyPawnTests >> testBlackMoveDown [
 	"Pawn should be able to move on the next square"
 	| pawn squares board |
 	board := MyChessBoard empty.
-	board at: 'c5' put: (pawn := MyPawn white).
+	board at: 'c5' put: (pawn := MyPawn black asMoved: true).
 
 	squares := pawn targetSquares.
 	self
@@ -37,14 +36,28 @@ MyPawnTests >> testBlackMoveDown [
 ]
 
 { #category : 'tests' }
+MyPawnTests >> testBlackMovesDownLeftWithOponentObstacle [
+
+	| pawn squares board |
+	board := MyChessBoard empty.
+	board at: 'c4' put: (pawn := MyPawn white asMoved: true).
+
+	"Sould be able tu eat the opponent on down right"
+	board at: 'b3' put: (MyPawn black asMoved: true).
+
+	squares := pawn targetSquares.
+	self assert: (squares anySatisfy: [ :each | each name = 'd3' ]) 
+]
+
+{ #category : 'tests' }
 MyPawnTests >> testBlackMovesDownRightWithOponentObstacle [
 
 	| pawn squares board |
 	board := MyChessBoard empty.
-	board at: 'c4' put: (pawn := MyPawn white).
+	board at: 'c4' put: (pawn := MyPawn white asMoved: true).
 
 	"Sould be able tu eat the opponent on down right"
-	board at: 'd3' put: MyPawn black.
+	board at: 'd3' put: (MyPawn black asMoved: true).
 
 	squares := pawn targetSquares.
 	self assert: (squares anySatisfy: [ :each | each name = 'd3' ]) 
@@ -55,10 +68,10 @@ MyPawnTests >> testBlackMovesDownWithOponentObstacle [
 
 	| pawn squares board |
 	board := MyChessBoard empty.
-	board at: 'c5' put: (pawn := MyPawn black).
+	board at: 'c5' put: (pawn := MyPawn black asMoved: true).
 
 	"Sould not pass with a blocking opponent"
-	board at: 'c4' put: MyPawn white.
+	board at: 'c4' put: (MyPawn white asMoved: true) .
 
 	squares := pawn targetSquares.
 	self assert: squares isEmpty
@@ -69,28 +82,13 @@ MyPawnTests >> testBlackMovesDownWithSameColorObstacle [
 
 	| pawn squares board |
 	board := MyChessBoard empty.
-	board at: 'c5' put: (pawn := MyPawn black).
+	board at: 'c5' put: (pawn := MyPawn black asMoved: true).
 
 	"Sould not pass with a blocking pawn"
-	board at: 'c4' put: MyPawn black.
+	board at: 'c4' put: (MyPawn black asMoved: true).
 
 	squares := pawn targetSquares.
-	self assert: (squares anySatisfy: [ :each | each name = 'c4' ]) not "Sould not pass, why"
-]
-
-{ #category : 'tests' }
-MyPawnTests >> testClassicMove [
-	"Pawn should be able to move one square for their first move"
-	| pawn squares board |
-	board := MyChessBoard empty.
-	board at: 'c4' put: (pawn := MyPawn white).
-
-	squares := pawn targetSquares.
-	self
-		assertCollection: squares
-		includesAll:
-			(#( c5 ) collect: [ :name |
-				 board at: name ])
+	self assert: ((squares anySatisfy: [ :each | each name = 'c4' ]) not) 
 ]
 
 { #category : 'tests' }
@@ -103,12 +101,11 @@ MyPawnTests >> testId [
 { #category : 'tests' }
 MyPawnTests >> testWhiteFirstMoveTwoSquare [
 	"Pawn should be able to move 1 or 2 square for their first move"
-	| pawn squares board row|
+	| pawn squares board |
 	board := MyChessBoard empty.
-	board at: 'e2' put: (pawn := MyPawn white).
+	board at: 'e2' put: (pawn := MyPawn white asMoved: false).
 
 	squares := pawn targetSquares.
-	row := pawn square. 
 	self
 		assertCollection: squares
 		includesAll:
@@ -121,7 +118,7 @@ MyPawnTests >> testWhiteMoveUp [
 	"Pawn should be able to move on the next square"
 	| pawn squares board |
 	board := MyChessBoard empty.
-	board at: 'c4' put: (pawn := MyPawn white).
+	board at: 'c4' put: (pawn := MyPawn white asMoved: true).
 
 	squares := pawn targetSquares.
 	self
@@ -136,10 +133,10 @@ MyPawnTests >> testWhiteMovesUpLeftWithOponentObstacle [
 
 	| pawn squares board |
 	board := MyChessBoard empty.
-	board at: 'c4' put: (pawn := MyPawn white).
+	board at: 'c4' put: (pawn := MyPawn white asMoved: true).
 
 	"Sould be able tu eat the opponent on top left"
-	board at: 'b5' put: MyPawn black.
+	board at: 'b5' put: (MyPawn black asMoved: true).
 
 	squares := pawn targetSquares.
 	self assert: (squares anySatisfy: [ :each | each name = 'b5' ]) 
@@ -150,10 +147,10 @@ MyPawnTests >> testWhiteMovesUpRightWithOponentObstacle [
 
 	| pawn squares board |
 	board := MyChessBoard empty.
-	board at: 'c4' put: (pawn := MyPawn white).
+	board at: 'c4' put: (pawn := MyPawn white asMoved: true).
 
 	"Sould be able tu eat the opponent on top right"
-	board at: 'd5' put: MyPawn black.
+	board at: 'd5' put: (MyPawn black asMoved: true).
 
 	squares := pawn targetSquares.
 	self assert: (squares anySatisfy: [ :each | each name = 'd5' ]) 
@@ -164,10 +161,10 @@ MyPawnTests >> testWhiteMovesUpWithOponentObstacle [
 
 	| pawn squares board |
 	board := MyChessBoard empty.
-	board at: 'c4' put: (pawn := MyPawn white).
+	board at: 'c4' put: (pawn := MyPawn white asMoved:true).
 
 	"Sould not pass with a blocking opponent"
-	board at: 'c5' put: MyPawn black.
+	board at: 'c5' put: (MyPawn black asMoved: true).
 
 	squares := pawn targetSquares.
 	self assert: (squares anySatisfy: [ :each | each name = 'c5' ]) not 
@@ -178,11 +175,11 @@ MyPawnTests >> testWhiteMovesUpWithSameColorObstacle [
 
 	| pawn squares board |
 	board := MyChessBoard empty.
-	board at: 'c4' put: (pawn := MyPawn white).
+	board at: 'c4' put: (pawn := MyPawn white asMoved: true).
 
 	"Sould not pass with a blocking pawn"
-	board at: 'c5' put: MyPawn white.
+	board at: 'c5' put: (MyPawn white asMoved: true).
 
 	squares := pawn targetSquares.
-	self assert: (squares anySatisfy: [ :each | each name = 'c5' ]) not "Sould not pass, why"
+	self assert: (squares anySatisfy: [ :each | each name = 'c5' ]) not 
 ]
