@@ -19,8 +19,7 @@ MyPawn >> renderPieceOn: aSquare [
 
 { #category : 'rendering' }
 MyPawn >> targetSquaresLegal: aBoolean [
-	"On se fait des variables"
-	"Un pour la colone de 2 du first move et une pour le return"
+
 	| possibleMoves |
 	
 	possibleMoves := OrderedCollection new.
@@ -44,25 +43,30 @@ MyPawn >> targetSquaresLegal: aBoolean [
         ]
     ].
 	
-	(self isWhite ifTrue: [square up left] ifFalse: [square down left]) ifNotNil: [:leftSquare |
+	(self isWhite 
+	
+	ifTrue: [
+		"On verrifie si up n'est pas nill, si up est nill c'est qu'on a pas le droit au move donc pas besoin d'aller plus loin on laisse passer le nill"
+		square up ifNotNil: [:squareUpWhite | squareUpWhite left ].] 
+	ifFalse: [square down ifNotNil: [:squareDownBlack | squareDownBlack left ].]
+	) ifNotNil: [:leftSquare |
         leftSquare hasPiece ifTrue: [ 
 			(leftSquare contents color ~= self color) ifTrue: [possibleMoves add: leftSquare] .
 	 ]
 ].
 
-	(self isWhite ifTrue: [square up right] ifFalse: [square down right]) ifNotNil: [:rightSquare |
+	(self isWhite 
+	ifTrue: [ square up ifNotNil: [:squareUpWhite | squareUpWhite right ] ] 
+	ifFalse: [
+		square down ifNotNil: [:squareDownBlack | squareDownBlack right].]
+		 ) ifNotNil: [:rightSquare |
         rightSquare hasPiece ifTrue: [ 
 			(rightSquare contents color ~= self color) ifTrue: [possibleMoves add: rightSquare] .
 	 ]
 ].
-	"@TODO erreur si on a deux piece en haut du plateau on a un send to nill sur left"
+
 	"@TODO il faut gerer le déplacement diagonale et le coup special"
 	 
-	"possibleMoves addAll: ( (self isWhite
-		   ifTrue: [ { square up } ]
-		   ifFalse: [ { square down } ]) select: [ :s |
-		  s notNil and: [
-			  s hasPiece not or: [ s contents color ~= color ] ] ]) ."
 	
 	^possibleMoves 
 ]
