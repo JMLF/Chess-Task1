@@ -158,8 +158,6 @@ MyChessGame >> recordMovementOf: aPiece to: aSquare [
 		          ifFalse: [ '' ].
 	moves add: prefix , ' ' , aPiece id , aSquare name.
 	
-	"Quand la piece est joué on doit mettre à jours sa var asMoved"
-	aPiece asMoved: true.
 	
 	movesText := String streamContents: [ :stream |
 		| currentLine |

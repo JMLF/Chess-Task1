@@ -125,9 +125,6 @@ MyChessBoard >> initializeFromFENBoard: aFENBoard [
          color := substrings first.
          pieceClass := (self class environment at: ('My' , (substrings second capitalized)) asSymbol).
          pieceInstance := pieceClass perform: color asLowercase asSymbol.
-         
-         "Initialiser la variable de classe si nécessaire"
-         pieceInstance asMoved: false .
 
          self at: k put: pieceInstance
      ]

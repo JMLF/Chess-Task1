@@ -20,8 +20,14 @@ MyPawn >> renderPieceOn: aSquare [
 { #category : 'rendering' }
 MyPawn >> targetSquaresLegal: aBoolean [
 
-	| possibleMoves |
+| possibleMoves atHisStartingRank rank |
 	possibleMoves := OrderedCollection new.
+
+rank := self square name last.
+
+"Déterminer si le pion est sur sa rangée de départ"
+atHisStartingRank := (self isWhite and: [ rank = $2 ]) 
+    or: (self isWhite not and: [ rank = $7 ]).
 
 	"Déplacement d'une case vers l'avant"
 	"Suivant la couleur on monte ou on descent de un"
@@ -34,7 +40,7 @@ MyPawn >> targetSquaresLegal: aBoolean [
 
 			"Déplacement de deux cases si le pion n'a pas encore bougé"
 			"Si en plus de précedement la piece n'a jamais été bougé on ajoute un up/down sur le coup précedent et on le met dans les coups possibles"
-			self asMoved ifFalse: [
+			atHisStartingRank  ifTrue: [
 				(self isWhite
 					 ifTrue: [ frontSquare up ]
 					 ifFalse: [ frontSquare down ]) ifNotNil: [ :twoSquaresAhead |
