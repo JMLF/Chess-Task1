@@ -332,11 +332,12 @@ MyPawnTests >> testWhitePawnEnPassantCapture [
 { #category : 'tests' }
 MyPawnTests >> testWhitePromotionOnLastRow [
 	"L'id de la pièce doit être Q"
-	| pawn board |
+	| pawn board test|
 	board := MyChessBoard empty.
 	board at: 'd7' put: (pawn := MyPawn white).
 
 	pawn moveTo: pawn square up. 
+
 	"Here pawn should be promoted as queen"
 	self assert: MyPawn new id equals: 'Q'
 
